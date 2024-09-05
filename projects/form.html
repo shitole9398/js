@@ -37,7 +37,7 @@ button:hover {
 
 body {
     font-family: Arial;
-    background-image: url(img\ 4.jpg);
+    /* background-image: url(img\ 4.jpg); */
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
@@ -70,6 +70,9 @@ input {
     border: 1px solid white;
     padding: 20px;
     color: white;
+    height: 300px;
+    
+    overflow-x:auto;
 }
 
 table,th,td{
@@ -103,36 +106,54 @@ table,th,td{
                 <input type="password" id="password" name="password" required>
                 <small class="error-message" id="passwordError"></small>
             </div>
-            <button typeu="sbmit">REGISTER</button>
+            <button onclick="registerStudent()">REGISTER</button>
             <button onclick="reset()">RESET</button>
     
         </form>
     </div>
 
     <div class="table">
-        <table>
+        <table id="table">
             <tr>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Password</th>
             </tr>
-            <tr>
-                <td>akshay</td>
-                <td>akshay@mail.com</td>
-                <td>12324</td>
-            </tr>
+            
         </table>
     </div>
 </body>
 <script>
-     function reset() {
-            arr.fill(null);
-            turn = "X";
-            gameOn = true;
-            btns.forEach(btn => {
-                btn.innerText = "";
-                btn.classList.remove("X", "O"); // Remove class for color styling
-            });
-        }
+    let username = document.querySelector("#username");
+    let email = document.querySelector("#email");
+    let password = document.querySelector("#password");
+
+    function reset(){
+        username.innerText=""
+        email.innerText=""
+        password.innerText=""
+    }
+    
+    document.getElementById("registrationForm").addEventListener("onsubmit",(e)=>{e.preventDefault()})
+    function registerStudent(){
+
+        if(username.value =="" && email.value==""&&password.value=="" ){
+            alert("Please fill all the fields")
+        }else{
+        let tr = document.createElement("tr");
+        let td_username = document.createElement("td");
+        let td_email = document.createElement("td");
+        let td_password = document.createElement("td");
+        let table = document.getElementById("table")
+
+        td_username.innerText= username.value.toString()
+        td_email.innerText= email.value.toString()
+        td_password.innerText= password.value.toString()
+        tr.appendChild(td_username)
+        tr.appendChild(td_email)
+        tr.appendChild(td_password)
+        table.appendChild(tr)
+    }
+}
 </script>
 </html>
