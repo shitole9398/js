@@ -26,10 +26,10 @@
             align-items: center;
             gap: 1rem;
             animation: fadeIn 1s ease-in-out; 
-            &:hover{
-                box-shadow:6px 8px 17px rgba(80, 0, 73, 0.89); 
-                
-            }
+        }
+
+        .form:hover {
+            box-shadow: 6px 8px 17px rgba(17, 0, 255, 0.89); 
         }
 
         @keyframes fadeIn {
@@ -71,22 +71,24 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        .form-group {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            position: relative; /* Required for positioning the eye icon */
+        }
+
         input {
             width: 100%;
             padding: 0.70rem;
             border: 1px solid #ffffff;
             border-radius: 4px;
             transition: border-color 0.3s ease;
+            box-sizing: border-box;
         }
 
         input:focus {
             border-color: #2ae1cb;
             outline: none;
-        }
-
-        .form-group {
-            color: #ffffff;
-            margin-bottom: 1rem;
         }
 
         .error-message {
@@ -100,11 +102,12 @@
             border: 1px solid #ffffff;
             padding: 20px;
             color: #ffffff;
-            height: 300px;
+            height: 380px;
             overflow-x: auto;
             background-color: rgba(0, 0, 0, 0.5); 
             border-radius: 8px;
             animation: slideIn 1s ease-in-out;
+            margin: 20px;
         }
 
         table, th, td {
@@ -121,13 +124,28 @@
         td {
             background-color: #333333; 
         }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: black;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
     <div class="form">
         <h1>Register</h1>
         <form id="registrationForm">
-            <div id="form-group" class="form-group">
+            <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
                 <small class="error-message" id="usernameError"></small>
@@ -139,11 +157,14 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <span class="eye-icon" onclick="togglePassword()">👁️</span>
+                </div>
                 <small class="error-message" id="passwordError"></small>
             </div>
-            <button type="button" onclick="registerStudent()">REGISTER</button>
-            <button onclick="reset()">RESET</button>
+            <button type="submit">REGISTER</button>
+            
         </form>
     </div>
 
@@ -158,21 +179,25 @@
     </div>
 
     <script>
-        function reset(){
-        username.innerText=""
-        email.innerText=""
-        password.innerText=""
-    }
+        function reset() {
+            document.getElementById("username").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("usernameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("passwordError").innerText = "";
+        }
        
         document.getElementById("registrationForm").addEventListener("submit", (e) => {
             e.preventDefault();
+            registerStudent();
         });
 
         function registerStudent() {
             let username = document.getElementById("username");
             let email = document.getElementById("email");
             let password = document.getElementById("password");
-            
+
             if (username.value === "" || email.value === "" || password.value === "") {
                 alert("Please fill all the fields");
                 return;
@@ -193,6 +218,18 @@
             table.appendChild(tr);
 
             reset(); 
+        }
+
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            let eyeIcon = document.querySelector(".eye-icon");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.innerText = "👁️"; // Eye icon indicating "show"
+            } else {
+                passwordField.type = "password";
+                eyeIcon.innerText = ""; // Eye icon indicating "hide"
+            }
         }
     </script>
 </body>
