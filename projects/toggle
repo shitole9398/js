@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Black & White Toggle</title>
+        <style>
+            body {
+                  font-family: Arial, sans-serif;
+                    background-color: white;
+                      color: black;
+                        transition: all 0.5s ease;
+                        }
+
+                        body.black-and-white {
+                          filter: grayscale(100%);
+                            background-color: #f0f0f0;
+                            }
+
+                            .container {
+                              text-align: center;
+                                margin-top: 100px;
+                                }
+
+                                button {
+                                  padding: 10px 20px;
+                                    font-size: 16px;
+                                      cursor: pointer;
+                                      }
+            }
+        </style>
+        </head>
+        <body>
+          <div class="container">
+              <h1>Black & White Toggle Example</h1>
+                  <button id="toggleButton">Switch to Black & White</button>
+                      <p>This is a sample text. It will change color mode based on the toggle button.</p>
+                        </div>
+
+                          <script>
+                            const toggleButton = document.getElementById('toggleButton');
+                            const body = document.body;
+
+                            toggleButton.addEventListener('click', () => {
+                              body.classList.toggle('black-and-white');
+
+                                if (body.classList.contains('black-and-white')) {
+                                    toggleButton.textContent = 'Switch to Color Mode';
+                                      } else {
+                                          toggleButton.textContent = 'Switch to Black & White';
+                                            }
+                                            });
+                          </script>
+                          </body>
+                          </html>
