@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Form Toggle</title>
     <style>
+        /* Existing CSS... */
         body {
             font-family: Arial, sans-serif;
-            background: #000000; /* Black background */
+            background: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            color: #ffffff; /* Default text color */
+            transition: background 0.5s ease; 
         }
 
-        .form {
-            background: #333333; /* Dark background for form */
+        .form-container {
+            background: linear-gradient(90deg, rgba(255, 100, 100, 1) 0%, rgba(100, 200, 255, 1) 100%); /* Gradient background for form */
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -26,13 +26,11 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            animation: fadeIn 1s ease-in-out;
-            margin-bottom: 2rem; /* Gap between form and table */
+            box-shadow: 6px 8px 17px rgba(0, 0, 0, 0.536);
+            animation: fadeIn 1s ease-in-out; 
         }
 
-        .form:hover {
-            box-shadow: 6px 8px 17px rgba(80, 0, 73, 0.89);
-        }
+        
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -53,11 +51,11 @@
 
         button:hover {
             background-color: #1f9b8f;
-            transform: scale(1.05);
+            transform: scale(1.05); 
         }
 
         button:active {
-            transform: scale(1);
+            transform: scale(1); 
         }
 
         h1 {
@@ -73,38 +71,24 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        .form-group {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            position: relative; /* Required for positioning the eye icon */
+        }
+
         input {
             width: 100%;
             padding: 0.70rem;
             border: 1px solid #ffffff;
             border-radius: 4px;
             transition: border-color 0.3s ease;
-            background-color: #222222; /* Dark background for inputs */
-            color: #ffffff; /* Text color inside inputs */
+            box-sizing: border-box;
         }
 
         input:focus {
             border-color: #2ae1cb;
             outline: none;
-        }
-
-        .form-group {
-            color: #ffffff;
-            margin-bottom: 1rem;
-            position: relative; /* Added for positioning the icon */
-        }
-
-        .form-group input[type="password"] {
-            padding-right: 2.5rem; /* Added space for the eye icon */
-        }
-
-        .form-group .eye-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #ffffff;
         }
 
         .error-message {
@@ -114,121 +98,285 @@
             font-size: 0.9rem;
         }
 
-        .table {
-            border: 1px solid #ffffff;
-            padding: 20px;
-            color: #ffffff;
-            height: 300px;
-            overflow-x: auto;
-            background-color: #333333; /* Dark background for table */
-            border-radius: 8px;
-            margin-top: 2rem; /* Gap between table and content above */
-            animation: slideIn 1s ease-in-out;
-        }
-
-        table {
+        .password-container {
+            position: relative;
             width: 100%;
-            border-spacing: 0; /* Ensure no extra spacing around table cells */
         }
 
-        th, td {
-            border: 1px solid #ffffff;
-            padding: 10px;
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: black;
+            font-size: 1.2rem;
+        }
+
+        .form-toggle {
+            margin-top: 1rem;
             text-align: center;
+            color: #ffffff;
         }
 
-        th {
-            background-color: #2ae1cb; /* Light accent color for header */
+        .form-toggle a {
+            color: #2ae1cb;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        td {
-            background-color: #444444; /* Slightly lighter dark color for table rows */
+        .form-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .google {
+            background-color: #db4437; /* Google red */
+        }
+
+        .microsoft {
+            background-color: #0078d4; /* Microsoft blue */
+        }
+
+        .apple {
+            background-color: #000000; /* Apple black */
+        }
+
+        .social-button:hover {
+            opacity: 0.8;
+        }
+
+        .social-button:active {
+            opacity: 0.6;
+        }
+
+        .continue-button {
+            margin-top: 1rem;
+            background-color: #2ae1cb;
+        }
+
+        .continue-button:hover {
+            background-color: #1f9b8f;
         }
     </style>
 </head>
 <body>
-    <div class="form">
-        <h1>Register</h1>
-        <form id="registrationForm">
-            <div id="form-group" class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-                <small class="error-message" id="usernameError"></small>
+    <div class="form-container">
+        <h1 id="formTitle">Sign Up</h1>
+        <form id="combinedForm">
+            <!-- Register Section -->
+            <div id="registerSection">
+                <div id="mobileNumberSection">
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" name="mobileNumber" required>
+                        <button type="button" class="continue-button" onclick="requestOTP()">Request OTP</button>
+                    </div>
+                </div>
+                <div id="otpSection" class="hidden">
+                    <div class="form-group">
+                        <label for="otp">Enter OTP</label>
+                        <input type="text" id="otp" name="otp" required>
+                        <button type="button" class="continue-button" onclick="verifyOTP()">Verify OTP</button>
+                    </div>
+                    <p>Already have an account? <a id="loginPrompt" href="#" onclick="toggleForm()">Login</a></p>
+                    <p>Or continue with:</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-button google" onclick="socialSignUp('google')">Continue with Google</button>
+                        <button type="button" class="social-button microsoft" onclick="socialSignUp('microsoft')">Continue with Microsoft</button>
+                        <button type="button" class="social-button apple" onclick="socialSignUp('apple')">Continue with Apple</button>
+                    </div>
+                </div>
+                <div id="registrationForm" class="hidden">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                        <small class="error-message" id="usernameError"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" required>
+                            <span class="eye-icon" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">👁️</span>
+                        </div>
+                        <small class="error-message" id="passwordError"></small>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-                <small class="error-message" id="emailError"></small>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                <i class="fa fa-eye eye-icon" id="togglePassword"></i> <!-- Eye icon for toggling password visibility -->
-                <small class="error-message" id="passwordError"></small>
-            </div>
-            <button type="button" onclick="registerStudent()">REGISTER</button>
-            <button type="button" onclick="resetForm()">RESET</button>
-        </form>
-    </div>
 
-    <div class="table">
-        <table id="table">
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Password</th>
-            </tr>
-        </table>
+            <!-- Sign In Section -->
+            <div id="signInSection" class="hidden">
+                <div class="form-group">
+                    <label for="signInUsername">Username</label>
+                    <input type="text" id="signInUsername" name="username" required>
+                    <small class="error-message" id="signInUsernameError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="signInPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="signInPassword" name="password" required>
+                        <span class="eye-icon" onclick="togglePassword('signInPassword', this)" aria-label="Toggle password visibility">👁️</span>
+                    </div>
+                    <small class="error-message" id="signInPasswordError"></small>
+                </div>
+                <button type="submit">Sign In</button>
+            </div>
+        </form>
+
+        <div class="form-toggle">
+            <a id="toggleLink">Create a new account</a>
+        </div>
     </div>
 
     <script>
-        function resetForm() {
-            document.getElementById("username").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("password").value = "";
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const combinedForm = document.getElementById("combinedForm");
+            const registerSection = document.getElementById("registerSection");
+            const signInSection = document.getElementById("signInSection");
+            const title = document.getElementById("formTitle");
+            const toggleLink = document.getElementById("toggleLink");
 
-        document.getElementById("registrationForm").addEventListener("submit", (e) => {
-            e.preventDefault();
+            combinedForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const currentTitle = title.innerText;
+                if (currentTitle === "Sign Up") {
+                    registerStudent();
+                } else {
+                    signInUser();
+                }
+            });
+
+            toggleLink.addEventListener("click", toggleForm);
         });
 
+        function requestOTP() {
+            const mobileNumber = document.getElementById("mobileNumber").value;
+            if (!mobileNumber) {
+                alert("Please enter your mobile number");
+                return;
+            }
+
+            // Simulate OTP request
+            alert("OTP has been sent to your mobile number.");
+
+            // Hide mobile number section and show OTP section
+            document.getElementById("mobileNumberSection").classList.add("hidden");
+            document.getElementById("otpSection").classList.remove("hidden");
+        }
+
+        function verifyOTP() {
+            const otp = document.getElementById("otp").value;
+            if (!otp) {
+                alert("Please enter the OTP");
+                return;
+            }
+
+            // Simulate OTP verification
+            alert("OTP verified successfully.");
+
+            // Show registration form
+            document.getElementById("otpSection").classList.add("hidden");
+            document.getElementById("registrationForm").classList.remove("hidden");
+        }
+
+        function socialSignUp(provider) {
+            alert(`Continue with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`);
+            // Implement social sign-up logic here
+        }
+
+        function togglePassword(fieldId, eyeIcon) {
+            const passwordField = document.getElementById(fieldId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.innerText = "🙈";
+            } else {
+                passwordField.type = "password";
+                eyeIcon.innerText = "👁️";
+            }
+        }
+
+        function toggleForm() {
+            const registerSection = document.getElementById("registerSection");
+            const signInSection = document.getElementById("signInSection");
+            const title = document.getElementById("formTitle");
+            const toggleLink = document.getElementById("toggleLink");
+
+            if (registerSection.classList.contains("hidden")) {
+                // Switch to Register form
+                registerSection.classList.remove("hidden");
+                signInSection.classList.add("hidden");
+                title.innerText = "Sign Up";
+                toggleLink.innerText = "Already have an account? Login";
+            } else {
+                // Switch to Sign In form
+                registerSection.classList.add("hidden");
+                signInSection.classList.remove("hidden");
+                title.innerText = "Sign In";
+                toggleLink.innerText = "Create a new account";
+            }
+        }
+
         function registerStudent() {
-            let username = document.getElementById("username");
-            let email = document.getElementById("email");
-            let password = document.getElementById("password");
-            
-            if (username.value === "" || email.value === "" || password.value === "") {
+            const username = document.getElementById("username");
+            const password = document.getElementById("password");
+
+            if (!username.value || !password.value) {
                 alert("Please fill all the fields");
                 return;
             }
 
-            let tr = document.createElement("tr");
-            let td_username = document.createElement("td");
-            let td_email = document.createElement("td");
-            let td_password = document.createElement("td");
-            let table = document.getElementById("table");
+            // Perform registration operation here
+            alert("Registration successful!");
 
-            td_username.innerText = username.value;
-            td_email.innerText = email.value;
-            td_password.innerText = password.value;
-            tr.appendChild(td_username);
-            tr.appendChild(td_email);
-            tr.appendChild(td_password);
-            table.appendChild(tr);
-
-            resetForm(); 
+            reset('combinedForm');
+            toggleForm(); // Switch to Sign In form after registration
         }
 
-        // Toggle password visibility
-        const togglePassword = document.getElementById("togglePassword");
-        const passwordInput = document.getElementById("password");
+        function signInUser() {
+            const username = document.getElementById("signInUsername");
+            const password = document.getElementById("signInPassword");
 
-        togglePassword.addEventListener("click", () => {
-            const type = passwordInput.type === "password" ? "text" : "password";
-            passwordInput.type = type;
-            togglePassword.classList.toggle("fa-eye", type === "password");
-            togglePassword.classList.toggle("fa-eye-slash", type === "text");
-        });
+            if (!username.value || !password.value) {
+                alert("Please fill all the fields");
+                return;
+            }
+
+            // Perform sign-in operation here
+            alert("Sign In successful!");
+
+            reset('combinedForm');
+            toggleForm(); // Switch to Register form after sign-in
+        }
+
+        function reset(formId) {
+            const form = document.getElementById(formId);
+            form.reset();
+            const errorElements = form.querySelectorAll('.error-message');
+            errorElements.forEach(elem => elem.innerText = "");
+        }
     </script>
 </body>
 </html>
