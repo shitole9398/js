@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background: url(https://i.postimg.cc/MZ7dYZLS/backgrundimg.webp) center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            color: #fff;
+            transform: scale(1.05);}
+
+#message {
+    margin-top: 20px;
+    font-weight: bold;
+    color: green;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Your Mobile Number</h1>
+        <input type="text" id="mobile" maxlength="10" placeholder="10-digit Mobile Number" />
+        <button id="sendOtp">Send OTP</button>
+
+        <div id="otpSection" style="display: none;">
+            <h2>Enter OTP</h2>
+            <input type="text" id="otp" placeholder="Enter OTP" />
+            <button id="verifyOtp">Verify OTP</button>
+            <div id="countdown"></div>
+        </div>
+
+        <div id="message" style="display: none;"></div>
+    </div>
+    <script>
+        let countdownInterval; // Declare variable to hold the countdown interval
+
+document.getElementById('sendOtp').addEventListener('click', function() {
+    const mobile = document.getElementById('mobile').value;
+    if (mobile.length === 10 && !isNaN(mobile)) {
+        document.getElementById('otpSection').style.display = 'block';
+        startCountdown();
+    } else {
+        alert('Please enter a valid 10-digit mobile number.');
+    }
+});
+
+function startCountdown() {
+    let timeLeft = 120; // 2 minutes in seconds
+    const countdownElement = document.getElementById('countdown');
+
+    countdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdownElement.textContent = `Time remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            countdownElement.textContent = 'OTP expired!';
+            document.getElementById('verifyOtp').disabled = true;
+        }
+        timeLeft -= 1;
+    }, 1000);
+}
+
+document.getElementById('verifyOtp').addEventListener('click', function() {
+    const otp = document.getElementById('otp').value;
+    
+    // Simulating OTP verification success (replace this with real verification logic)
+    if (otp) {
+        clearInterval(countdownInterval); // Stop the countdown
+        document.getElementById('otpSection').style.display = 'none'; // Hide OTP section
+        document.getElementById('message').textContent = 'Verification successful!';
+        document.getElementById('message').style.display = 'block';
+    } else {
+        alert('Please enter the OTP.');
+    }
+});
+
+    </script>
+</body>
+</html>

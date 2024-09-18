@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: url(https://i.postimg.cc/MZ7dYZLS/backgrundimg.webp) center/cover no-repeat;
+            z-index: -1;
+        }
+
+        .maincontainer {
+            width: 400px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(7px);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form h2 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            position: relative;
+            border-bottom: 2px solid #ccc;
+            margin: 15px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field input {
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 1rem;
+            pointer-events: none;
+            transition: 0.3s ease-in;
+        }
+
+        .input-field input:focus ~ label,
+        .input-field input:valid ~ label {
+            transform: translateY(-120%);
+            font-size: 0.8rem;
+            top: 10px;
+            color: #fff;
+        }
+
+        .input-field input:focus {
+            border-bottom: 2px solid #fff; /* Highlight active input */
+        }
+
+        button {
+            background-color: #fff;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 3px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .account-options {
+            text-align: center;
+            margin-top: 30px;
+            color: #fff;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8rem;
+            margin: 0;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideIn 0.3s forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .success-message {
+            color: green;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeInZoom 0.5s forwards;
+        }
+
+        @keyframes fadeInZoom {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maincontainer">
+        <form id="registerForm">
+            <h2>Register</h2>
+            <div class="input-field">
+                <input type="text" name="username" id="username" required placeholder=" ">
+                <label for="username">Enter your Username</label>
+            </div>
+            <div class="input-field">
+                <input type="email" name="email" id="email" required placeholder=" ">
+                <label for="email">Enter your E-mail</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" id="password" required placeholder=" ">
+                <label for="password">Enter your Password</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="confirmPassword" id="confirmPassword" required placeholder=" ">
+                <label for="confirmPassword">Confirm your Password</label>
+            </div>
+
+            <button type="submit">Register</button>
+
+            <div class="account-options">
+                <p>Already have an account?<a href="e.html"> Log In</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            this.querySelectorAll('.error, .success-message').forEach(el => el.remove());
+
+            if (username === '' || email === '' || password === '' || confirmPassword === '') {
+                showMessage('All fields are required!', 'error');
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showMessage('Please enter a valid email address!', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters!', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            showMessage('Registration successful!', 'success');
+
+          
+            this.reset();
+        });
+
+        function showMessage(message, type) {
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+            messageElement.className = type === 'error' ? 'error' : 'success-message';
+
+            document.getElementById('registerForm').appendChild(messageElement);
+            messageElement.style.animation = type === 'error' ? 'slideIn 0.3s forwards' : 'fadeInZoom 0.5s forwards'; // Trigger animation
+        }
+    </script>
+</body>
+</html>
