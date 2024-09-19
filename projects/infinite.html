@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Image Slider</title>
+    <style>
+   body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    background-color: #f0f0f0; /* Light background color */
+}
+
+.slider {
+    position: relative;
+    width: 400px; /* Set your preferred width */
+    height: 300px; /* Set the same height for a square shape */
+    overflow: hidden;
+    border: 2px solid #ccc;
+    border-radius: 15px; /* Rounded corners */
+    background-color: white; /* Background for the slider */
+}
+
+.slides {
+    display: flex;
+    transition: transform 1.0s ease-in-out;
+}
+
+.slides img {
+    width: 400px; /* Match this with the slider width */
+    height: 300px; /* Match this with the slider height */
+    object-fit: cover; /* Ensures images cover the square */
+}
+
+button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid black;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for buttons */
+    padding: 10px;
+}
+
+.prev {
+    left: 400px; /* Position on the left */
+}
+
+.next {
+    right: 300px; /* Position on the right */
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 1); /* Change background on hover */
+}
+
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="slides">
+            <img src="img1.jpg" alt="Image 1">
+            <img src="img2.jpg" alt="Image 2">
+            <img src="img3.jpg" alt="Image 3">
+            <img src="img4.jpg" alt="Image 4">
+        </div>
+    </div>
+    <button class="prev" onclick="showPrevSlide()">❮ </button>
+    <button class="next" onclick="showNextSlide()"> ❯</button>
+    
+    
+    
+    
+    <script>
+        let index = 0;
+
+const slides = document.querySelector('.slides');
+const totalSlides = slides.children.length;
+
+function showSlide() {
+    const offset = -index * 400; // Match this with the width of the images
+    slides.style.transform = `translateX(${offset}px)`;
+}
+
+function showNextSlide() {
+    index = (index + 1) % totalSlides;
+    showSlide();
+}
+
+function showPrevSlide() {
+    index = (index - 1 + totalSlides) % totalSlides;
+    showSlide();
+}
+
+
+    </script>
+</body>
+</html>
